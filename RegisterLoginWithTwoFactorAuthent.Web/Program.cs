@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using RegisterLoginWithTwoFactorAuthent.Web.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConStr"));
+});
+
+builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<AppDBContext>();
 
 var app = builder.Build();
 
