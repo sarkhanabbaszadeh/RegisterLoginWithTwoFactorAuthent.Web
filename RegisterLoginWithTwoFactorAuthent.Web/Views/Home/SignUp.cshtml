@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "SignUp";
+}
+@model SignUpViewModel
+<h2>Login</h2>
+<br />
+<form class="row g-3">
+    <div class="row mb-3">
+        <label for="userName" class="form-label col-md-2" asp-for="UserName" ></label>
+        <div class="col-md-3">
+        <input asp-for="UserName" class="form-control" id="userName">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="userEmail" class="form-label col-md-2" asp-for="Email"></label>
+        <div class="col-md-3">
+            <input asp-for="Email" class="form-control" id="userEmail">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="userPhone" class="form-label col-md-2" asp-for="PhoneNumber"></label>
+        <div class="col-md-3">
+            <input asp-for="PhoneNumber" class="form-control" id="userPhone">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="userPass" class="form-label col-md-2" asp-for="Password"></label>
+        <div class="col-md-3">
+            <input asp-for="Password" class="form-control" id="userPass">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="userPassCon" class="form-label col-md-2" asp-for="PasswordConfirm"></label>
+        <div class="col-md-3">
+            <input asp-for="PasswordConfirm" class="form-control" id="userPassCon">
+        </div>
+    </div>
+
+@*     <div class="col-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+                Check me out
+            </label>
+        </div>
+    </div> *@
+
+    <div class="row">
+        <div class="col-md-8 offset-md-4">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+    </div>
+</form>
+
