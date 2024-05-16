@@ -4,6 +4,11 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.ViewModels
 {
     public class SignUpViewModel
     {
+        public SignUpViewModel()
+        {
+                
+        }
+
         public SignUpViewModel(string userName, string password, string email, string phoneNumber)
         {
             UserName = userName;

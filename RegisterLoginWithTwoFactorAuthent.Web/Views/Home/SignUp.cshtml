@@ -3,9 +3,16 @@
     ViewData["Title"] = "SignUp";
 }
 @model SignUpViewModel
-<h2>Login</h2>
+<h2>Register</h2>
 <br />
-<form class="row g-3">
+    @if (@TempData["SuccessMessage"]!=null)
+    {
+        <div class="alert alert-success">
+            <strong>@TempData["SuccessMessage"]</strong>
+        </div>
+    }
+    <br/>
+    <form class="row g-3" asp-controller="Home" asp-action="SignUp" method="post">
     <div class="row mb-3">
         <label for="userName" class="form-label col-md-2" asp-for="UserName" ></label>
         <div class="col-md-3">
