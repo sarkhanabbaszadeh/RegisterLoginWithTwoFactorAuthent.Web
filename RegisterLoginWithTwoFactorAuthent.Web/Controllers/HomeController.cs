@@ -35,9 +35,16 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
         [HttpPost]
         public async  Task<IActionResult> SignUp(SignUpViewModel request)
         {
+
+            if ((!ModelState.IsValid))
+            {
+                return View();
+            }
+
             var identityResult = await _userManager.CreateAsync(new() { UserName = request.UserName, PhoneNumber = request.PhoneNumber, Email = request.Email }, request.PasswordConfirm);
 
-            if(identityResult.Succeeded)
+
+            if (identityResult.Succeeded)
             {
                 TempData["SuccessMessage"] = "Qeydiyyat ugurludur !";
 

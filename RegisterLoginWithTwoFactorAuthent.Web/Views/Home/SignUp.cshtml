@@ -11,12 +11,18 @@
             <strong>@TempData["SuccessMessage"]</strong>
         </div>
     }
+
+        <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert" >
+
+        </div>
+
     <br/>
     <form class="row g-3" asp-controller="Home" asp-action="SignUp" method="post">
     <div class="row mb-3">
         <label for="userName" class="form-label col-md-2" asp-for="UserName" ></label>
         <div class="col-md-3">
         <input asp-for="UserName" class="form-control" id="userName">
+        <span class="text-danger" asp-validation-for="UserName"></span>
         </div>
     </div>
 
@@ -24,6 +30,7 @@
         <label for="userEmail" class="form-label col-md-2" asp-for="Email"></label>
         <div class="col-md-3">
             <input asp-for="Email" class="form-control" id="userEmail">
+            <span class="text-danger" asp-validation-for="Email"></span>
         </div>
     </div>
 
@@ -38,6 +45,7 @@
         <label for="userPass" class="form-label col-md-2" asp-for="Password"></label>
         <div class="col-md-3">
             <input asp-for="Password" class="form-control" id="userPass">
+            <span class="text-danger" asp-validation-for="Password"></span>
         </div>
     </div>
 
@@ -45,6 +53,7 @@
         <label for="userPassCon" class="form-label col-md-2" asp-for="PasswordConfirm"></label>
         <div class="col-md-3">
             <input asp-for="PasswordConfirm" class="form-control" id="userPassCon">
+            <span class="text-danger" asp-validation-for="PasswordConfirm"></span>
         </div>
     </div>
 
