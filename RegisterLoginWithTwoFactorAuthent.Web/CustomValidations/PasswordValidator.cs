@@ -15,7 +15,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.CustomValidations
 
             if (password!.ToLower().StartsWith("1234"))
             {
-                errors.Add(new() { Code = "PasswordNoContain1234", Description = "Şifrə yerinə ardıcıl rəqəm daxil etmək olmaz !" });
+                errors.Add(new() { Code = "PasswordContain1234", Description = "Şifrə yerinə ardıcıl rəqəm daxil etmək olmaz !" });
             }
 
             if (errors.Any())
