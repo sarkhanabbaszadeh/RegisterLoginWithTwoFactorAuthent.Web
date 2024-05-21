@@ -1,5 +1,7 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RegisterLoginWithTwoFactorAuthent.Web.CustomValidations;
+using RegisterLoginWithTwoFactorAuthent.Web.Localizations;
 using RegisterLoginWithTwoFactorAuthent.Web.Models;
 
 namespace RegisterLoginWithTwoFactorAuthent.Web.Extensions
@@ -20,7 +22,8 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Extensions
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
 
-            }).AddPasswordValidator<PasswordValidator>().AddUserValidator<UserValidator>().AddEntityFrameworkStores<AppDBContext>();
+            }).AddPasswordValidator<PasswordValidator>().AddUserValidator<UserValidator>
+            ().AddErrorDescriber<LocalizationsIdentityErrorDescriber>().AddEntityFrameworkStores<AppDBContext>();
         }
     }
 }
