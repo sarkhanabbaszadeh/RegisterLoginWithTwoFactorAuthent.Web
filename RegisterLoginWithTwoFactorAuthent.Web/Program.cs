@@ -14,6 +14,17 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 
 builder.Services.AddIdentityWithExt();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    var cookieBuilder = new CookieBuilder();
+
+    cookieBuilder.Name = "RegLogAppCookie";
+    options.LoginPath = new PathString("/Home/Signin");
+    options.Cookie = cookieBuilder;
+    options.ExpireTimeSpan = TimeSpan.FromDays(1);
+    options.SlidingExpiration = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
