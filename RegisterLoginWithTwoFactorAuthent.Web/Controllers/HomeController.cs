@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RegisterLoginWithTwoFactorAuthent.Web.Models;
 using RegisterLoginWithTwoFactorAuthent.Web.ViewModels;
@@ -44,18 +44,24 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 
             if (hasUser == null)
             {
-                ModelState.AddModelError(string.Empty, "E-po�ta v?ya ?ifr? yaln??d?r.");
+                ModelState.AddModelError(string.Empty, "E-poçta vəya şifrə yalnışdır.");
                 return View();
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe, false);
+            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe, true);
 
             if (signInResult.Succeeded)
             {
                 return Redirect(returnURL);
             }
 
-            ModelState.AddModelErrorList(new List<string>() { "E-po�ta v?ya ?ifr? yaln??d?r." });
+            if (signInResult.IsLockedOut)
+            {
+                ModelState.AddModelErrorList(new List<string>() { "Girisiniz 3 deqiqelik bloklanib." });
+                return View();
+            }
+
+            ModelState.AddModelErrorList(new List<string>() { "E-poçta veya sifre yalnisdir.",$"Ugursuz giris sayi : { await _userManager.GetAccessFailedCountAsync(hasUser)}" });
 
             return View();
         }
