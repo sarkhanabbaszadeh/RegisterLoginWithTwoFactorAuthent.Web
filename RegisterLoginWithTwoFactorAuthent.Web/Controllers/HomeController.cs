@@ -36,9 +36,9 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(SignInViewModel request, string returnURL=null)
+        public async Task<IActionResult> SignIn(SignInViewModel request, string returnURL = null)
         {
-            returnURL = returnURL ?? Url.Action("Index", "Home");
+            returnURL = returnURL ?? Url.Action("Index", "Member");
 
             var hasUser=await _userManager.FindByEmailAsync(request.Email);
 

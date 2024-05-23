@@ -13,7 +13,7 @@
         <br />
         <h2>Login</h2>
         <br />
-        <form class="row g-3" asp-controller="Home" asp-action="SignIn" method="post">
+        <form class="row g-3" asp-controller="Home" asp-action="SignIn" asp-route-retrunurl="@Context.Request.Query["returnURL"]" method="post">
             <div class="mb-3">
                 <label for="userEmail" class="form-label" asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" id="userEmail">
