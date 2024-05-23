@@ -20,6 +20,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
     cookieBuilder.Name = "RegLogAppCookie";
     options.LoginPath = new PathString("/Home/Signin");
+    options.LogoutPath = new PathString("/Home/Logout");
     options.Cookie = cookieBuilder;
     options.ExpireTimeSpan = TimeSpan.FromDays(1);
     options.SlidingExpiration = true;
