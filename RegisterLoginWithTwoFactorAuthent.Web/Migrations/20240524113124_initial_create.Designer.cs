@@ -12,8 +12,8 @@ using RegisterLoginWithTwoFactorAuthent.Web.Models;
 namespace RegisterLoginWithTwoFactorAuthent.Web.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240514124836_initial")]
-    partial class initial
+    [Migration("20240524113124_initial_create")]
+    partial class initial_create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,6 +202,9 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<short?>("TwoFactor")
+                        .HasColumnType("smallint");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
