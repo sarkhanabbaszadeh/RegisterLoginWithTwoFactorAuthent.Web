@@ -26,5 +26,10 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
             await _signInManager.SignOutAsync();
 
         }
+
+        public IActionResult TwoFactorAuth()
+        {
+            return View();
+        }
     }
 }

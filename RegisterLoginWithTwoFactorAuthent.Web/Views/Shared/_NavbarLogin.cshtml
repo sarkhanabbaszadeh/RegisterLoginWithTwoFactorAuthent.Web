@@ -6,6 +6,7 @@
                 @User.Identity.Name
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" asp-controller="Member" asp-action="TwoFactorAuth">Two Factor</a></li>
                 <li><a class="dropdown-item" asp-route-returnurl="/Home/Index" asp-controller="Member" asp-action="Logout">Çıxış</a></li>
             </ul>
         </li>
