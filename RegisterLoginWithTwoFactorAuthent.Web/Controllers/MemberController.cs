@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RegisterLoginWithTwoFactorAuthent.Web.Enums;
 using RegisterLoginWithTwoFactorAuthent.Web.Models;
+using RegisterLoginWithTwoFactorAuthent.Web.ViewModels;
 
 namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 {
@@ -9,13 +11,15 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
     public class MemberController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public MemberController(SignInManager<AppUser> signInManager)
-        {
-            _signInManager = signInManager;
-        }
+		public MemberController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+		{
+			_signInManager = signInManager;
+			_userManager = userManager;
+		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
             return View();
         }
@@ -29,7 +33,8 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 
         public IActionResult TwoFactorAuth()
         {
-            return View();
+            var CurrentUser = _userManager.FindByNameAsync(User.Identity.Name).Result;
+            return View(new AuthenticatorViewModel() { TwoFactorType = (TwoFactor)CurrentUser.TwoFactor});
         }
     }
 }

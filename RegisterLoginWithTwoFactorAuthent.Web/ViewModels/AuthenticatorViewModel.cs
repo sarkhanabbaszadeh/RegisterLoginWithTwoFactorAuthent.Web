@@ -1,0 +1,18 @@
+﻿using RegisterLoginWithTwoFactorAuthent.Web.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace RegisterLoginWithTwoFactorAuthent.Web.ViewModels
+{
+	public class AuthenticatorViewModel
+	{
+        public string SharedKey { get; set; }
+
+        public int AuthenticatorURL { get; set; }
+
+        [Display(Name = "Doğrulama kodunuz")]
+        [Required(ErrorMessage = "Doğrulama kodunuz lazımdır")]
+        public string VerificationCode { get; set; }
+
+        public TwoFactor TwoFactorType { get; set; }
+    }
+}
