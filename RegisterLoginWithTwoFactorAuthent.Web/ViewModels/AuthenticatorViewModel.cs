@@ -13,6 +13,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.ViewModels
         [Required(ErrorMessage = "Doğrulama kodunuz lazımdır")]
         public string VerificationCode { get; set; }
 
-        public TwoFactor TwoFactorType { get; set; }
+		[Display(Name = "Iki faktorlu doğrulama tipiniz")]
+		public TwoFactor TwoFactorType { get; set; }
     }
 }

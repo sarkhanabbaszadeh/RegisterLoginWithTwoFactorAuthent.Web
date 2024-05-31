@@ -1,5 +1,34 @@
 ﻿@{
 	ViewData["Title"] = "Index";
 }
+@model AuthenticatorViewModel
 
-<h1>Two Factor Auth</h1>
+<h1>2FA Setting Edit</h1>
+<br />
+<br />
+
+<div class="row">
+	<div class="col-md-12">
+		<form asp-action="TwoFactorAuth" method="post">
+			<div class="form-group">
+				<label asp-for="TwoFactorType" class="form-label col-md-4"></label>
+				<br />
+				<select class="form-control" asp-for="TwoFactorType" asp-items="@Html.GetEnumSelectList<TwoFactor>()"></select>
+			</div>
+			<br />
+			<div class="form-group">
+				<input type="submit" value="Düzəlt" class="btn btn-success"/>
+			</div>
+		</form>
+	</div>
+
+	@if (ViewBag.warning != null)
+	{
+		<div class="col-md-12">
+			<div class="alert alert-warning">
+				@ViewBag.warning
+			</div>
+		</div>
+		
+	}
+</div>

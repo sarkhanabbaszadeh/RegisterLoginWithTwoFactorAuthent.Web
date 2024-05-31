@@ -80,7 +80,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
                 return View();
             }
 
-            var identityResult = await _userManager.CreateAsync(new() { UserName = request.UserName, PhoneNumber = request.PhoneNumber, Email = request.Email }, request.PasswordConfirm);
+            var identityResult = await _userManager.CreateAsync(new() { UserName = request.UserName, PhoneNumber = request.PhoneNumber, Email = request.Email, TwoFactor = 0 }, request.PasswordConfirm);
 
 
             if (identityResult.Succeeded)
