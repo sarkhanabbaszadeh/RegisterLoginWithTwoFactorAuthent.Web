@@ -36,5 +36,25 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
             var CurrentUser = _userManager.FindByNameAsync(User.Identity.Name).Result;
             return View(new AuthenticatorViewModel() { TwoFactorType = (TwoFactor)CurrentUser.TwoFactor});
         }
-    }
+
+        [HttpPost]
+        public async Task<IActionResult> TwoFactorAuth(AuthenticatorViewModel model)
+        {
+			var CurrentUser = _userManager.FindByNameAsync(User.Identity.Name).Result;
+
+			switch (model.TwoFactorType)
+            {
+                case TwoFactor.None:
+                    CurrentUser.TwoFactorEnabled = false;
+                    CurrentUser.TwoFactor = (sbyte)TwoFactor.None;
+                    TempData["message"] = "İki faktorlu doğrulama tipiniz heçbiri olaraq təyin olunub.";
+                    break;
+            }
+
+            await _userManager.UpdateAsync(CurrentUser);
+
+            return View(model);
+        }
+
+	}
 }
