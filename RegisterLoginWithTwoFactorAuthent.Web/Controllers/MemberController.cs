@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RegisterLoginWithTwoFactorAuthent.Web.Enums;
 using RegisterLoginWithTwoFactorAuthent.Web.Models;
+using RegisterLoginWithTwoFactorAuthent.Web.Service;
 using RegisterLoginWithTwoFactorAuthent.Web.ViewModels;
 
 namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
@@ -12,11 +13,13 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly TwoFactorService _twoFactorService;
 
-		public MemberController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+		public MemberController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, TwoFactorService twoFactorService)
 		{
 			_signInManager = signInManager;
 			_userManager = userManager;
+			_twoFactorService = twoFactorService;
 		}
 
 		public IActionResult Index()
@@ -31,7 +34,30 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 
         }
 
-        public IActionResult TwoFactorAuth()
+		public async Task<IActionResult> TwoFactorWithAuthenticator()
+		{
+			var CurrentUser = _userManager.FindByNameAsync(User.Identity.Name).Result;
+
+			string unformattedKey = await _userManager.GetAuthenticatorKeyAsync(CurrentUser);
+
+			if (string.IsNullOrEmpty(unformattedKey))
+			{
+				await _userManager.ResetAuthenticatorKeyAsync(CurrentUser);
+
+				unformattedKey = await _userManager.GetAuthenticatorKeyAsync(CurrentUser);
+			}
+
+			AuthenticatorViewModel authenticatorViewModel = new AuthenticatorViewModel();
+
+			authenticatorViewModel.SharedKey = unformattedKey;
+
+            authenticatorViewModel.AuthenticatorURL = _twoFactorService.GenerateQrCodeUrl(CurrentUser.Email, unformattedKey);
+
+			return View(authenticatorViewModel);
+
+		}
+
+		public IActionResult TwoFactorAuth()
         {
             var CurrentUser = _userManager.FindByNameAsync(User.Identity.Name).Result;
             return View(new AuthenticatorViewModel() { TwoFactorType = (TwoFactor)CurrentUser.TwoFactor});

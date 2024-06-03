@@ -7,7 +7,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.ViewModels
 	{
         public string SharedKey { get; set; }
 
-        public int AuthenticatorURL { get; set; }
+        public string AuthenticatorURL { get; set; }
 
         [Display(Name = "Doğrulama kodunuz")]
         [Required(ErrorMessage = "Doğrulama kodunuz lazımdır")]
