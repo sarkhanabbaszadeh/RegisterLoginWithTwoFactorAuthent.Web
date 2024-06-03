@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RegisterLoginWithTwoFactorAuthent.Web.Extensions;
 using RegisterLoginWithTwoFactorAuthent.Web.Models;
-using RegisterLoginWithTwoFactorAuthent.Web.TwoFactorService;
+using RegisterLoginWithTwoFactorAuthent.Web.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

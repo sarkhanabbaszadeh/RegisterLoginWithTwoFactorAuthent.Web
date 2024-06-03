@@ -1,6 +1,6 @@
 ﻿using System.Text.Encodings.Web;
 
-namespace RegisterLoginWithTwoFactorAuthent.Web.TwoFactorService
+namespace RegisterLoginWithTwoFactorAuthent.Web.Service
 {
 	public class TwoFactorService
 	{
