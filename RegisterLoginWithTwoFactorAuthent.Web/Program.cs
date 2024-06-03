@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RegisterLoginWithTwoFactorAuthent.Web.Extensions;
 using RegisterLoginWithTwoFactorAuthent.Web.Models;
+using RegisterLoginWithTwoFactorAuthent.Web.TwoFactorService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 });
 
 builder.Services.AddIdentityWithExt();
+builder.Services.AddScoped<TwoFactorService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
