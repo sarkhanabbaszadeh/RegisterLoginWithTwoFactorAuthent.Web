@@ -9,7 +9,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.ViewModels
 
         public string AuthenticatorURL { get; set; }
 
-        [Display(Name = "Doğrulama kodunuz")]
+        [Display(Name = "Doğrulama kodunuz: ")]
         [Required(ErrorMessage = "Doğrulama kodunuz lazımdır")]
         public string VerificationCode { get; set; }
 

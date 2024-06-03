@@ -57,7 +57,14 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 
 		}
 
-		public IActionResult TwoFactorAuth()
+        [HttpPost]
+        public async Task<IActionResult> TwoFactorWithAuthenticator(AuthenticatorViewModel authenticatorViewModel)
+        {
+            return View();
+        }
+
+
+        public IActionResult TwoFactorAuth()
         {
             var CurrentUser = _userManager.FindByNameAsync(User.Identity.Name).Result;
             return View(new AuthenticatorViewModel() { TwoFactorType = (TwoFactor)CurrentUser.TwoFactor});
@@ -74,6 +81,12 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
                     CurrentUser.TwoFactorEnabled = false;
                     CurrentUser.TwoFactor = (sbyte)TwoFactor.None;
                     TempData["message"] = "İki faktorlu doğrulama tipiniz heçbiri olaraq təyin olunub.";
+                    break;
+
+                case TwoFactor.MicrosoftGoogle:
+                    return RedirectToAction("TwoFactorWithAuthenticator");
+
+                default:
                     break;
             }
 

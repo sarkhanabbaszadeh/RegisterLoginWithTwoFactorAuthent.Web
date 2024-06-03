@@ -1,0 +1,39 @@
+﻿@model AuthenticatorViewModel
+@{
+    ViewData["Title"] = "TwoFactorWithAuthenticator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Google/Microsoft Authenticator</h1>
+<br />
+<div class="col-md-12">
+    <div class="alert alert-info">
+        1. Merhele: Asagidaki barkodu telefonunuzdaki Google/Microsoft Authenticator proqrami ile scan edin. Eks halda asagidaki kodu telefonunuza daxil edin.
+    </div>
+    
+    <strong class="text-danger">Key: </strong><strong class="text-primary">@Model.SharedKey</strong>
+
+    <div class="alert alert-info mt-3">
+        2. Merhele: Telefonunuzdaki kodu asagidaki bolmeye daxil edin.
+    </div>
+
+    <form asp-action="TwoFactorWithAuthenticator" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="VerificationCode"></label>
+            <br /> <br />
+            <input asp-for="VerificationCode" class="form-control" />
+
+            <span asp-validation-for="VerificationCode"></span>
+            <input type="hidden" asp-for="AuthenticatorURL" />
+            <input type="hidden" asp-for="SharedKey" />
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Active" class="btn btn-success" />
+        </div>
+    </form>
+</div>
