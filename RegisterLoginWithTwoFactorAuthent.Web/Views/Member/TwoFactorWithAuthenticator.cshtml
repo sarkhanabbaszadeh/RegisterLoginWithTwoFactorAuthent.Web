@@ -3,6 +3,21 @@
     ViewData["Title"] = "TwoFactorWithAuthenticator";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts
+{
+    <script type="text/javascript">
+
+        var url = "@Model.AuthenticatorURL";
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: url,
+            width: 150,
+            height: 150,
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        
+    </script>
+}
 
 <h1>Google/Microsoft Authenticator</h1>
 <br />
@@ -12,7 +27,8 @@
     </div>
     
     <strong class="text-danger">Key: </strong><strong class="text-primary">@Model.SharedKey</strong>
-
+    <hr />
+    <div id="qrcode"></div>
     <div class="alert alert-info mt-3">
         2. Merhele: Telefonunuzdaki kodu asagidaki bolmeye daxil edin.
     </div>
