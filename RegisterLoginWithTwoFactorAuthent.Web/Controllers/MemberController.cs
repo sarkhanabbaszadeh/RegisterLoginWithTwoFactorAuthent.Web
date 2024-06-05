@@ -60,6 +60,30 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> TwoFactorWithAuthenticator(AuthenticatorViewModel authenticatorViewModel)
         {
+            var CurrentUser = await _userManager.GetUserAsync(User);
+
+			var verificationCode = authenticatorViewModel.VerificationCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+            var is2FATokenValid = await _userManager.VerifyTwoFactorTokenAsync(CurrentUser, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
+
+            if (is2FATokenValid)
+            {
+                CurrentUser.TwoFactorEnabled = true;
+                CurrentUser.TwoFactor = (sbyte)TwoFactor.MicrosoftGoogle;
+
+                var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(CurrentUser, 5);
+
+                TempData["recoveryCodes"] = recoveryCodes;
+                TempData["message"] = "İki faktorlu doğrulama tipiniz Microsoft/Google Authenticator olaraq təyin olunub.";
+
+                return RedirectToAction("TwoFactorAuth");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Daxil etdiyiniz təsdiqləmə kodu səhvdir !");
+                return View(authenticatorViewModel);
+            }
+
             return View();
         }
 

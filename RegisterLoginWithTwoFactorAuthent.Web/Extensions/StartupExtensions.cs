@@ -25,7 +25,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Extensions
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
                 options.Lockout.MaxFailedAccessAttempts = 3;
 
-            }).AddPasswordValidator<PasswordValidator>().AddUserValidator<UserValidator>
+            }).AddDefaultTokenProviders().AddPasswordValidator<PasswordValidator>().AddUserValidator<UserValidator>
             ().AddErrorDescriber<LocalizationsIdentityErrorDescriber>().AddEntityFrameworkStores<AppDBContext>();
         }
     }
