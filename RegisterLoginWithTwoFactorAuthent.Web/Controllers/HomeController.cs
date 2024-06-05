@@ -30,17 +30,19 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
             return View();
         }
 
-        public IActionResult SignIn()
+        public IActionResult SignIn(string ReturnUrl="/")
         {
+            TempData["ReturnUrl"] = ReturnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(SignInViewModel request, string returnURL = null)
+        public async Task<IActionResult> SignIn(SignInViewModel request)
         {
-            returnURL = returnURL ?? Url.Action("Index", "Member");
 
-            var hasUser=await _userManager.FindByEmailAsync(request.Email);
+
+
+			var hasUser=await _userManager.FindByEmailAsync(request.Email);
 
             if (hasUser == null)
             {
@@ -48,23 +50,44 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
                 return View();
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe, true);
+            bool userCheck = await _userManager.CheckPasswordAsync(hasUser, request.Password);
 
-            if (signInResult.Succeeded)
+            if (userCheck)
             {
-                return Redirect(returnURL);
-            }
+                await _userManager.ResetAccessFailedCountAsync(hasUser);
+                await _signInManager.SignOutAsync();
 
-            if (signInResult.IsLockedOut)
-            {
-                ModelState.AddModelErrorList(new List<string>() { "Girisiniz 3 deqiqelik bloklanib." });
-                return View();
-            }
+                var result = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe, true);
 
-            ModelState.AddModelErrorList(new List<string>() { "E-poçta veya sifre yalnisdir.",$"Ugursuz giris sayi : { await _userManager.GetAccessFailedCountAsync(hasUser)}" });
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToAction("TwoFactoLogin","Member");
+                }
+                else
+                {
+                    return Redirect(TempData["ReturnUrl"].ToString());
+                }
 
-            return View();
-        }
+				if (result.Succeeded)
+				{
+					return Redirect(TempData["ReturnUrl"].ToString());
+				}
+
+				if (result.IsLockedOut)
+				{
+					ModelState.AddModelErrorList(new List<string>() { "Girisiniz 3 deqiqelik bloklanib." });
+					return View();
+				}
+
+				ModelState.AddModelErrorList(new List<string>() { "E-poçta veya sifre yalnisdir.", $"Ugursuz giris sayi : {await _userManager.GetAccessFailedCountAsync(hasUser)}" });
+
+				return View();
+			}
+
+			// var signInResult = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe, true);
+
+			return View();
+		}
 
         public IActionResult SignUp()
         {
