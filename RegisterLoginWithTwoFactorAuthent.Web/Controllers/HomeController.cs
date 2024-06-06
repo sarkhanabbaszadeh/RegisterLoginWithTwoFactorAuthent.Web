@@ -4,6 +4,7 @@ using RegisterLoginWithTwoFactorAuthent.Web.Models;
 using RegisterLoginWithTwoFactorAuthent.Web.ViewModels;
 using RegisterLoginWithTwoFactorAuthent.Web.Extensions;
 using System.Diagnostics;
+using RegisterLoginWithTwoFactorAuthent.Web.Enums;
 
 namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 {
@@ -88,6 +89,20 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 
 			return View();
 		}
+
+        public async Task<IActionResult> TwoFactorSignIn(string ReturnUrl = "/")
+        {
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            TempData["ReturnUrl"] = ReturnUrl;
+
+            switch((TwoFactor)user.TwoFactor)
+            {
+                case TwoFactor.MicrosoftGoogle:
+                    break;
+            }
+
+            return View(new TwoFactorSignInViewModel() { TwoFactorType = (TwoFactor)user.TwoFactor, isRecoverCode = false, isRememberMe = false });
+        }
 
         public IActionResult SignUp()
         {
