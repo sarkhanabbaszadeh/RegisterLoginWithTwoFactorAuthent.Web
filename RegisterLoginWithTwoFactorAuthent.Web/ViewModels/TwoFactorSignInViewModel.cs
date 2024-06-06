@@ -5,7 +5,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.ViewModels
 {
 	public class TwoFactorSignInViewModel
 	{
-		[Display(Name ="Təsdiqləmə kodunuz")]
+		[Display(Name ="Təsdiqləmə kodunuz: ")]
 		[Required(ErrorMessage ="Təsdiqləmə kodu boş buraxıla bilməz !")]
 		[StringLength(8,ErrorMessage ="Təsdiqləmə kodunuz ən çox 8 simvoldan ibarət olmalıdır.")]
         public string VerificationCode { get; set; }

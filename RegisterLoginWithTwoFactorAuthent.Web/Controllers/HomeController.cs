@@ -62,7 +62,7 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
 
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction("TwoFactoLogin","Member");
+                    return RedirectToAction("TwoFactorSignIn","Home");
                 }
                 else
                 {
