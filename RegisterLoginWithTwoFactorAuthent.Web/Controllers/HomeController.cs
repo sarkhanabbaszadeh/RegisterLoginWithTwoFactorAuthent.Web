@@ -104,6 +104,48 @@ namespace RegisterLoginWithTwoFactorAuthent.Web.Controllers
             return View(new TwoFactorSignInViewModel() { TwoFactorType = (TwoFactor)user.TwoFactor, isRecoverCode = false, isRememberMe = false });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> TwoFactorSignIn(TwoFactorSignInViewModel twofactor_model)
+        {
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+
+            ModelState.Clear();
+            bool isSuccessAuth = false;
+
+            if((TwoFactor)user.TwoFactor == TwoFactor.MicrosoftGoogle)
+            {
+                Microsoft.AspNetCore.Identity.SignInResult result;
+
+                if (twofactor_model.isRecoverCode)
+                {
+                    result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(twofactor_model.VerificationCode);
+                }
+                else
+                {
+                    result = await _signInManager.TwoFactorAuthenticatorSignInAsync(twofactor_model.VerificationCode, twofactor_model.isRememberMe, false);
+                }
+
+                if (result.Succeeded)
+                {
+                    isSuccessAuth = true;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Təsdiqləmə kodu səhvdir !");
+                }
+
+            }
+
+            if (isSuccessAuth)
+            {
+                return Redirect(TempData["ReturnUrl"].ToString());
+            }
+
+            twofactor_model.TwoFactorType = (TwoFactor)user.TwoFactor;
+
+            return View(twofactor_model);
+        }
+
         public IActionResult SignUp()
         {
             return View();
